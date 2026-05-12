@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "adam-gateway"
+version = "0.1.0"
+description = "A production-ready LLM API Gateway with intelligent routing, multi-provider support, and enterprise-grade security"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Adam Gateway Contributors", email = "adam-gateway@example.com"},
+]
+keywords = ["llm", "gateway", "proxy", "openai", "claude", "gemini", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: FastAPI",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.20.0",
+    "httpx[socks]>=0.24.0",
+    "loguru>=0.7.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.0",
+    "tiktoken>=0.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+]
+redis = [
+    "redis>=5.0.0",
+]
+cache = [
+    "redis>=5.0.0",
+    "qdrant-client>=1.0.0",
+]
+security = [
+    "presidio-analyzer>=2.0.0",
+]
+mcp = [
+    "mcp>=0.0.1",
+]
+all = [
+    "adam-gateway[dev,redis,cache,security,mcp]",
+]
+
+[project.scripts]
+adam = "adam_gateway.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/watxy77/adam-gateway"
+Documentation = "https://github.com/watxy77/adam-gateway/docs"
+Repository = "https://github.com/watxy77/adam-gateway.git"
+Issues = "https://github.com/watxy77/adam-gateway/issues"
+Changelog = "https://github.com/watxy77/adam-gateway/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "B", "C", "R"]
+ignore = ["E501", "C901"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["adam_gateway"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
